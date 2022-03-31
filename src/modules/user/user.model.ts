@@ -1,5 +1,4 @@
 import { Model, Column, PrimaryKey, AutoIncrement, DataType, Table, ForeignKey } from 'sequelize-typescript';
-
 @Table({
     tableName: 'Users',
     timestamps: true,
@@ -12,8 +11,7 @@ export class Users extends Model {
     @Column(DataType.INTEGER)
     id: number;
 
-    @ForeignKey(() => Todos)
-    @Column(DataType.TEXT)
+    @Column(DataType.STRING)
     username: string;
 
     @Column(DataType.STRING)
@@ -22,7 +20,7 @@ export class Users extends Model {
     @Column(DataType.DATE)
     createdAt: Date;
 
-    @Column(DataType.STRING)
+    @Column(DataType.DATE)
     updatedAt: Date;
 
     @Column(DataType.STRING)

@@ -1,3 +1,9 @@
+export const PROVIDERS = {
+    DATABASE_PROVIDER: 'DbConnection',
+};
+export const DATABASE_CONFIG = 'database';
+
+
 export const REPOSITORIES = {
     USER_REPOSITORY: 'USER_REPOSITORY',
     TODO_REPOSITORY: 'TODO_REPOSITORY',
@@ -8,4 +14,3 @@ export type UserObject = {
     username: string;
     token: string;
 };
-  
