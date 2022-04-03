@@ -1,5 +1,6 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { REPOSITORIES } from "src/common/constants";
+import { TodoDto } from "./dto/index";
 import { Todos } from "./todo.model";
 
 @Injectable()
@@ -14,15 +15,18 @@ export class TodoService {
     }
 
     async createTodo(body): Promise<Todos> {
+        console.log(body);
         body = {
             ...body,
-            updatedAt: new Date(),
-            username: "hatem",
-            createdBy: "hatem",
-            updatedBy: "hatem",
+            createdBy: body.username,
+            updatedBy: body.username,
         };
         
         const createdTodo =  await this.todosRepository.create(body);
         return createdTodo;
+    }
+
+    deleteTodoById(id: number): Promise<number> {
+        return this.todosRepository.destroy({ where: { id }});
     }
 }

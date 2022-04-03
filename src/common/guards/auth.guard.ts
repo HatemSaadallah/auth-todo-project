@@ -1,9 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { verifyToken } from "../utils/jwt";
-
+import { ConfigService } from "@nestjs/config";
 @Injectable()
 export class AuthGuard implements CanActivate {
+  constructor(private readonly configService: ConfigService) {}
   async canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {
@@ -14,9 +15,7 @@ export class AuthGuard implements CanActivate {
     if(!token){
         return false;
     }
-    const decoded: any = await verifyToken(token, process.env.JWTJEY);
-    console.log(2222, process.env.JWTKEY);
-    console.log("decoded", decoded);
+    const decoded: any = verifyToken(token, this.configService.get("jwt").secret);
     if(!decoded){
         return false;
     }

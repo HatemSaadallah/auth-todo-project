@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "src/common/guards/auth.guard";
 import { TodoService } from "./todo.service";
 
@@ -16,4 +16,10 @@ export class TodoController {
     createTodo(@Body() body): Promise<any> {
         return this.todoService.createTodo(body);
     }
+
+    @Delete('/:id')
+    deleteTodoById(@Param('id', ParseIntPipe) id: number): Promise<number> {
+        return this.todoService.deleteTodoById(id);
+    }
+
 }
