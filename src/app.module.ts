@@ -6,7 +6,8 @@ import { DatabaseModule } from './modules/db/database.module';
 import { UserModule } from './modules/user/user.module';
 import configFile from 'config';
 import { TodoModule } from './modules/todo/todo.module';
-
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
   imports: [
@@ -17,6 +18,16 @@ import { TodoModule } from './modules/todo/todo.module';
       load: [configFile],
       isGlobal: true,
     }),
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple(),
+          ),
+        }),
+      ],
+    })
   ],
   controllers: [AppController],
   providers: [AppService],

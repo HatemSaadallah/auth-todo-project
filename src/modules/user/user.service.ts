@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { UserObject } from 'src/common/constants';
 import { REPOSITORIES } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
@@ -10,6 +10,7 @@ export class UserService {
   constructor(
     @Inject(REPOSITORIES.USER_REPOSITORY)
     private userRepository: typeof Users,
+    
   ) {}
   async login(username: string, password: string): Promise<UserObject> {
     const user = await this.userRepository.findOne({
