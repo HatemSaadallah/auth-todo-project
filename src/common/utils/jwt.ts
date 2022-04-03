@@ -5,7 +5,7 @@ export const verifyToken = (token, secret) =>
     if (err) {
       return false;
     }
-    return decode;
+    return true;
   });
 
 export const generateToken = (username: string) => {
