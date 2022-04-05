@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Logger, Get } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Logger, Get, Delete, Param } from '@nestjs/common';
 import { SignupDto } from './dto/SignupDto';
 import { UserService } from './user.service';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
@@ -20,7 +20,13 @@ export class UserController {
   async getAllUsers() {
     return await this.userService.getAllUsers();
   }
-
+  @Delete('/:id')
+  @Roles(RoleStatus.ADMIN)
+  @Public()
+  async deleteUserById(@Param('id') id: number) {
+    return await this.userService.deleteUserById(id);
+  }
+  
   @Post('login')
   @Public()
   login(

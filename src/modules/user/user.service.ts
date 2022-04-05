@@ -39,6 +39,12 @@ export class UserService {
     });
   }
 
+  deleteUserById(id: number): Promise<number> {
+    return this.userRepository.destroy({
+      where: { id },
+    });
+  }
+
   getUserIdByUsername(username: string): Promise<number> {
     return this.userRepository.findOne({
         where: { username },
@@ -59,20 +65,12 @@ export class UserService {
       );
     }
     restObj.password = await hashPassword(restObj.password);
-    console.log(restObj);
-    const userFromDB = await this.userRepository.create({
-      username: username,
-      updatedAt: new Date(),
-      createdBy: username,
-      updatedBy: username,
-      password: restObj.password,
-    });
+ 
     return {
       username: username,
       updatedAt: new Date(),
       createdBy: username,
       updatedBy: username,
-      // password: generateToken(restObj.password),
     };
   }
 }
