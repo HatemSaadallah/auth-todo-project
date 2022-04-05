@@ -28,11 +28,19 @@ export class UserService {
       token: generateToken(user.username),
     };
   }
+  
   getUserByUsername(username: string): Promise<Users> {
     return this.userRepository.findOne({
       where: { username },
     });
   }
+
+  getUserIdByUsername(username: string): Promise<number> {
+    return this.userRepository.findOne({
+        where: { username },
+    }).then(user => user.id);
+  }
+
   async signup(body): Promise<Object> {
     let { username, ...restObj } = body;
     const user = await this.getUserByUsername(username);
@@ -55,11 +63,12 @@ export class UserService {
       updatedBy: username,
       password: restObj.password,
     });
-    console.log(userFromDB);
     return {
-      // id: userFromDB.id,
       username: username,
-      password: generateToken(restObj.password),
+      updatedAt: new Date(),
+      createdBy: username,
+      updatedBy: username,
+      // password: generateToken(restObj.password),
     };
   }
 }

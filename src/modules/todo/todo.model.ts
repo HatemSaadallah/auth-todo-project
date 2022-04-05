@@ -19,8 +19,8 @@ export class Todos extends Model {
   @Column(DataType.INTEGER)
   id: number;
 
-  @Column(DataType.STRING)
-  username: string;
+  @Column(DataType.INTEGER)
+  userId: number;
 
   @Column(DataType.STRING)
   todoItem: string;

@@ -7,7 +7,7 @@ export class TodoDto {
     
     @IsNotEmpty()
     @IsString()
-    username: string;
+    userId: string;
     
     @IsNotEmpty()
     @IsString()

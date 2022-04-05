@@ -10,15 +10,22 @@ export class AuthGuard implements CanActivate {
   ): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const { token } = request.headers;
-    // console.log(1111, token);
-
+    console.log("Token", token);
     if(!token){
         return false;
     }
-    const decoded: any = verifyToken(token, this.configService.get("jwt").secret);
-    if(!decoded){
-        return false;
+    try {
+      await verifyToken(token, 'secret');
+      return true;
+    } catch {
+      console.log("Error");
+      return false;
     }
-    return true;
+    // console.log("secret", this.configService.get("jwt").secret);
+    // // console.log("key",  this.configService.get("jwt").secret);
+    // if(!decoded){
+    //   return false;
+    // }
+    // return true;
   }
 }
