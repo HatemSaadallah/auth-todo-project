@@ -14,3 +14,8 @@ export type UserObject = {
     username: string;
     token: string;
 };
+
+export enum RoleStatus {
+    ADMIN = 'admin',
+    USER = 'user',
+}

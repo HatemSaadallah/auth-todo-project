@@ -28,6 +28,10 @@ export class UserService {
       token: generateToken(user.username),
     };
   }
+
+  getAllUsers(): Promise<Users[]> {
+    return this.userRepository.findAll();
+  }
   
   getUserByUsername(username: string): Promise<Users> {
     return this.userRepository.findOne({
