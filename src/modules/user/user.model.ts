@@ -28,4 +28,7 @@ export class Users extends Model {
 
     @Column(DataType.STRING)
     updatedBy: string;
+
+    @Column(DataType.STRING)
+    role: string;
 }

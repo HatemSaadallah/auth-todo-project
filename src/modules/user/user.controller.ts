@@ -16,12 +16,13 @@ export class UserController {
   // , private readonly logger: LoggerService
   @Get('/')
   @Roles(RoleStatus.ADMIN)
+  @Public()
   async getAllUsers() {
     return await this.userService.getAllUsers();
   }
 
   @Post('login')
-  @Public(  )
+  @Public()
   login(
     @Body() { username, password }: { username: string; password: string },
   ) {

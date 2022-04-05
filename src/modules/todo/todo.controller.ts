@@ -9,11 +9,6 @@ export class TodoController {
         private readonly todoService: TodoService, 
         private readonly userService: UserService) {}
     
-    // @Get('/')
-    // getAllTodos(): Promise<any> {
-    //     return this.todoService.getAllTodos();
-    // }
-
     @Post('create')
     @UseGuards(AuthGuard)
     createTodo(@Body() body, @Headers() headers): Promise<any> {
@@ -29,5 +24,4 @@ export class TodoController {
     deleteTodoById(@Param('id', ParseIntPipe) id: number): Promise<number> {
         return this.todoService.deleteTodoById(id);
     }
-
 }
