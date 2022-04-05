@@ -51,6 +51,13 @@ export class UserService {
     }).then(user => user.id);
   }
 
+  changeRoleForUserById(id: number, role: string): Promise<number> {
+    return this.userRepository.update(
+      { role: role },
+      { where: { id }, returning: true },
+    ).then(user => user[1][0].id);
+  }
+
   async signup(body): Promise<Object> {
     let { username, ...restObj } = body;
     const user = await this.getUserByUsername(username);
@@ -65,7 +72,15 @@ export class UserService {
       );
     }
     restObj.password = await hashPassword(restObj.password);
- 
+    
+    const userFromDB = await this.userRepository.create({
+      username: username,
+      updatedAt: new Date(),
+      createdBy: username,
+      updatedBy: username,
+      password: restObj.password,
+    });
+    
     return {
       username: username,
       updatedAt: new Date(),

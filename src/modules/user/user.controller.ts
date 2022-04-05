@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Logger, Get, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Logger, Get, Delete, Param, Put } from '@nestjs/common';
 import { SignupDto } from './dto/SignupDto';
 import { UserService } from './user.service';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
@@ -26,7 +26,15 @@ export class UserController {
   async deleteUserById(@Param('id') id: number) {
     return await this.userService.deleteUserById(id);
   }
-  
+
+  @Put('/:id')
+  @Roles(RoleStatus.ADMIN)
+  @Public()
+  async changeRoleForUserById(@Param('id') id: number, @Body() body: { role: string }) {
+    console.log("new role", body.role);
+    return await this.userService.changeRoleForUserById(id, body.role);
+  }
+
   @Post('login')
   @Public()
   login(
