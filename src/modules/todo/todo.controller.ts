@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards, He
 import { AuthGuard } from "src/common/guards/auth.guard";
 import { TodoService } from "./todo.service";
 import { UserService } from "../user/user.service";
+import { verifyToken } from "src/common/utils/jwt";
 @Controller('todos')
 export class TodoController {
     constructor(
@@ -20,9 +21,9 @@ export class TodoController {
     }
 
     @Get('/')
-    @UseGuards(AuthGuard)
-    getTodoByUsername(@Body('username') username: string): Promise<any> {
-        return this.todoService.getTodosByUsername(username);
+    getTodoByUsername(@Headers() headers): Promise<any> {
+        let username = verifyToken(headers.token, process.env.JWTKEY);
+        return this.todoService.getTodosByUsername(username.username);
     }
     @Delete('/:id')
     deleteTodoById(@Param('id', ParseIntPipe) id: number): Promise<number> {
