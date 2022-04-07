@@ -8,8 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const userService = app.get(UserService);
 
-  app.useGlobalGuards(new AuthGuard(new Reflector()));
-  app.useGlobalGuards(new RolesGuard(new Reflector(), userService));
+  app.useGlobalGuards(new AuthGuard(new Reflector()), new RolesGuard(new Reflector(), userService));
   await app.listen(3000);
 }
 
