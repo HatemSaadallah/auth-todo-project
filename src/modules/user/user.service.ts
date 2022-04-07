@@ -1,17 +1,22 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, LoggerService } from '@nestjs/common';
 import { UserObject } from 'src/common/constants';
 import { REPOSITORIES } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
 import { Users } from './user.model';
 import { generateToken } from 'src/common/utils/jwt';
+import { winstonProvider } from 'src/common/constants';
+
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject(REPOSITORIES.USER_REPOSITORY)
     private userRepository: typeof Users,
+    @Inject(winstonProvider) 
+    private readonly logger: LoggerService,
   ) {}
   async login(username: string, password: string): Promise<UserObject> {
+
     const user = await this.userRepository.findOne({
       where: { username },
     });
@@ -73,7 +78,7 @@ export class UserService {
     }
     restObj.password = await hashPassword(restObj.password);
 
-    const userFromDB = await this.userRepository.create({
+    await this.userRepository.create({
       username: username,
       updatedAt: new Date(),
       createdBy: username,

@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
     }
 
     const decoded: any = verifyToken(token, 'secret');
-    // console.log("decoded", decoded);
+      
     if (!decoded) {
       return false;
     }

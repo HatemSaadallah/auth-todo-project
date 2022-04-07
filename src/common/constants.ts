@@ -9,6 +9,8 @@ export const REPOSITORIES = {
     TODO_REPOSITORY: 'TODO_REPOSITORY',
 };
 
+export const winstonProvider = 'NestWinston';
+
 export interface UserObject {
     id: number;
     username: string;

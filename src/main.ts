@@ -3,11 +3,13 @@ import { AppModule } from './app.module';
 import { RolesGuard } from './common/guards/roles.guard';
 import { AuthGuard } from './common/guards/auth.guard';
 import { UserService } from './modules/user/user.service';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const userService = app.get(UserService);
-
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   app.useGlobalGuards(new AuthGuard(new Reflector()), new RolesGuard(new Reflector(), userService));
   await app.listen(3000);
 }

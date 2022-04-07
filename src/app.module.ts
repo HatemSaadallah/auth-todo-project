@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -27,7 +27,8 @@ import * as winston from 'winston';
           ),
         }),
       ],
-    })
+      exitOnError: false,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

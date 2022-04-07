@@ -1,19 +1,17 @@
-import { Body, Controller, Inject, Post, Logger, Get, Delete, Param, Put } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Get, Delete, Param, Put, LoggerService} from '@nestjs/common';
 import { SignupDto } from './dto/SignupDto';
 import { UserService } from './user.service';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Public, Roles } from 'src/common/decorators';
 import { RoleStatus } from 'src/common/constants';
-
+import { winstonProvider } from 'src/common/constants';
 
 @Controller('user')
 export class UserController {
   constructor(
+    @Inject(winstonProvider) 
+    private readonly logger: LoggerService,
     private readonly userService: UserService,
-    @Inject(WINSTON_MODULE_PROVIDER) 
-    private readonly logger: Logger
     ) {}
-  // , private readonly logger: LoggerService
   @Get('/')
   @Roles(RoleStatus.ADMIN)
   @Public()
@@ -31,7 +29,7 @@ export class UserController {
   @Roles(RoleStatus.ADMIN)
   @Public()
   async changeRoleForUserById(@Param('id') id: number, @Body() body: { role: string }) {
-    console.log("new role", body.role);
+    this.logger.log('info', `new role ${body.role}`);
     return await this.userService.changeRoleForUserById(id, body.role);
   }
 
@@ -40,6 +38,7 @@ export class UserController {
   login(
     @Body() { username, password }: { username: string; password: string },
   ) {
+    this.logger.log('info', 'login');
     return this.userService.login(username, password);
   }
   @Post('signup')
