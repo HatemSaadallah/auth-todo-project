@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UserObject } from 'src/common/constants';
 import { REPOSITORIES } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
@@ -10,7 +10,6 @@ export class UserService {
   constructor(
     @Inject(REPOSITORIES.USER_REPOSITORY)
     private userRepository: typeof Users,
-    
   ) {}
   async login(username: string, password: string): Promise<UserObject> {
     const user = await this.userRepository.findOne({
@@ -32,7 +31,7 @@ export class UserService {
   getAllUsers(): Promise<Users[]> {
     return this.userRepository.findAll();
   }
-  
+
   getUserByUsername(username: string): Promise<Users> {
     return this.userRepository.findOne({
       where: { username },
@@ -46,20 +45,21 @@ export class UserService {
   }
 
   getUserIdByUsername(username: string): Promise<number> {
-    return this.userRepository.findOne({
+    return this.userRepository
+      .findOne({
         where: { username },
-    }).then(user => user.id);
+      })
+      .then((user) => user.id);
   }
 
   changeRoleForUserById(id: number, role: string): Promise<number> {
-    return this.userRepository.update(
-      { role: role },
-      { where: { id }, returning: true },
-    ).then(user => user[1][0].id);
+    return this.userRepository
+      .update({ role: role }, { where: { id }, returning: true })
+      .then((user) => user[1][0].id);
   }
 
-  async signup(body): Promise<Object> {
-    let { username, ...restObj } = body;
+  async signup(body): Promise<any> {
+    const { username, ...restObj } = body;
     const user = await this.getUserByUsername(username);
 
     if (user) {
@@ -72,7 +72,7 @@ export class UserService {
       );
     }
     restObj.password = await hashPassword(restObj.password);
-    
+
     const userFromDB = await this.userRepository.create({
       username: username,
       updatedAt: new Date(),
@@ -80,7 +80,7 @@ export class UserService {
       updatedBy: username,
       password: restObj.password,
     });
-    
+
     return {
       username: username,
       updatedAt: new Date(),
