@@ -9,7 +9,7 @@ export const REPOSITORIES = {
     TODO_REPOSITORY: 'TODO_REPOSITORY',
 };
 
-export type UserObject = {
+export interface UserObject {
     id: number;
     username: string;
     token: string;
