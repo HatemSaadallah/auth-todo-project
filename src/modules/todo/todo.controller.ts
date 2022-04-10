@@ -18,6 +18,7 @@ export class TodoController {
     @Get('/')
     getTodoByUsername(@Headers() headers): Promise<any> {
         let username = verifyToken(headers.token, process.env.JWTKEY);
+        // @ts-ignore
         return this.todoService.getTodosByUsername(username.username);
     }
     @Delete('/:id')

@@ -4,7 +4,6 @@ import { REPOSITORIES } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
 import { Users } from './user.model';
 import { generateToken } from 'src/common/utils/jwt';
-import { winstonProvider } from 'src/common/constants';
 
 
 @Injectable()
@@ -12,8 +11,7 @@ export class UserService {
   constructor(
     @Inject(REPOSITORIES.USER_REPOSITORY)
     private userRepository: typeof Users,
-    @Inject(winstonProvider) 
-    private readonly logger: LoggerService,
+
   ) {}
   async login(username: string, password: string): Promise<UserObject> {
 

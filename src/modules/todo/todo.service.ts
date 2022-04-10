@@ -25,14 +25,14 @@ export class TodoService {
 
     async createTodo(body, headers): Promise<Todos> {
         let username = await verifyToken(headers.token, process.env.JWTKEY);
-        console.log("token", username.username);
+        console.log("token", username);
         
         body = {
             ...body,
-            username: username.username,
-            userId: await this.userService.getUserIdByUsername(username.username),
-            createdBy: username.username,
-            updatedBy: username.username,
+            username: username,
+            userId: await this.userService.getUserIdByUsername(username),
+            createdBy: username,
+            updatedBy: username,
         };
         
         const createdTodo =  await this.todosRepository.create(body);

@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 
 const hashPassword = (password: string) => {
-    return bcrypt.hash(password, 10);
+    return bcrypt.hash(password, 5);
 }
 
 const comparePassword = (password: string, hash: string) => {
