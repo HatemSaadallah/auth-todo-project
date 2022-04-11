@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmail, IsDate, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsDate, IsString, IsNumber } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 
 export class UserDto {

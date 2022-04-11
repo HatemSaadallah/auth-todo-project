@@ -1,7 +1,5 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards, Headers, Inject, CACHE_MANAGER } from "@nestjs/common";
 import { TodoService } from "./todo.service";
-import { UserService } from "../user/user.service";
-import { verifyToken } from "src/common/utils/jwt";
 import { CreateTodoDto } from "./dto/todo.create.dto";
 import { Todos } from "./todo.model";
 import { Cache } from "cache-manager";

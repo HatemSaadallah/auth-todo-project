@@ -1,11 +1,10 @@
-import { CACHE_MANAGER, HttpException, HttpStatus, Inject, Injectable, Logger, LoggerService } from '@nestjs/common';
+import { CACHE_MANAGER, HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { UserObject } from 'src/common/constants';
 import { REPOSITORIES } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
 import { Users } from './user.model';
 import { generateToken } from 'src/common/utils/jwt';
 import {Cache} from 'cache-manager';
-import { UserDto } from './dto/UserDto.dto';
 import { SignupDto } from './dto/SignupDto';
 import { LoginUserDto } from './dto/login.dto';
 

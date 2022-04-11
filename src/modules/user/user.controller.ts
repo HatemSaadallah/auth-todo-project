@@ -1,11 +1,10 @@
-import { Body, Controller, Inject, Post, Get, Delete, Param, Put, LoggerService, HttpException, HttpStatus} from '@nestjs/common';
+import { Body, Controller, Inject, Post, Get, Delete, Param, Put, HttpException, HttpStatus} from '@nestjs/common';
 import { SignupDto } from './dto/SignupDto';
 import { UserService } from './user.service';
 import { Public, Roles } from 'src/common/decorators';
 import { RoleStatus } from 'src/common/constants';
 import { winstonProvider } from 'src/common/constants';
 import { UserDto } from './dto/UserDto.dto';
-import { UserInfo } from 'os';
 import { Users } from './user.model';
 import { LoginUserDto } from './dto/login.dto';
 import { ERRORS } from 'src/common/utils';
@@ -14,7 +13,6 @@ import { ERRORS } from 'src/common/utils';
 export class UserController {
   constructor(
     @Inject(winstonProvider) 
-    private readonly logger: LoggerService,
     private readonly userService: UserService,
     ) {}
   @Get('/')
