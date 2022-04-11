@@ -29,8 +29,8 @@ export class UserDto {
 
   
   @IsString()
-  createdBy?: string;
+  createdBy?: number;
 
   @IsString()
-  updatedBy?: string;
+  updatedBy?: number;
 }

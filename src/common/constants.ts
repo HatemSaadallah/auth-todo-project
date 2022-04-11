@@ -16,8 +16,8 @@ export interface UserObject {
     username: string;
     role: string;
     token: string;
-    createdBy: string;
-    updatedBy: string;
+    createdBy: number;
+    updatedBy: number;
     createdAt: Date;
     updatedAt: Date;
 };

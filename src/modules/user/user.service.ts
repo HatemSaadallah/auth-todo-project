@@ -45,10 +45,9 @@ export class UserService {
       throw new HttpException(ERRORS.LOGIN_ERROR, HttpStatus.BAD_REQUEST);
     }
     let token: string = generateToken(user);
-    delete user.password;
+    user.password = '';
     await this.cacheManager.set('token', token, { ttl: 60 * 60 * 24 });
     await this.cacheManager.set('user', user['dataValues'], { ttl: 60 * 60 * 24 });
-    
     return user;
   }
 
@@ -127,8 +126,8 @@ export class UserService {
       role: 'user',
       createdAt: new Date(),
       updatedAt: new Date(),  
-      updatedBy: '',
-      createdBy: '',
+      updatedBy: null,
+      createdBy: null,
       password: restObj.password,
     });
     delete userCreated.password;

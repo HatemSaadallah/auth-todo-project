@@ -32,9 +32,9 @@ export class Todos extends Model {
   @Column(DataType.DATE)
   updatedAt: Date;
 
-  @Column(DataType.STRING)
-  createdBy: string;
+  @Column(DataType.INTEGER)
+  createdBy: number;
 
-  @Column(DataType.STRING)
-  updatedBy: string;
+  @Column(DataType.INTEGER)
+  updatedBy: number;
 }

@@ -26,12 +26,12 @@ module.exports = {
         allowNull: false,
       },
       created_by: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.INTEGER,
+        allowNull: true,
       },
       updated_by: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.INTEGER,
+        allowNull: true,
       },
       deleted_at: {
         type: Sequelize.DATE,

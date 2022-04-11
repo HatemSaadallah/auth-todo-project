@@ -36,10 +36,10 @@ export class Users extends Model {
     updatedAt: Date;
 
     @Column(DataType.STRING)
-    createdBy: string;
+    createdBy: number;
 
     @Column(DataType.STRING)
-    updatedBy: string;
+    updatedBy: number;
 
     @Column(DataType.STRING)
     role: string;
