@@ -42,7 +42,9 @@ export class UserService {
     let token: string = generateToken(user);
     delete user.password;
     await this.cacheManager.set('token', token, { ttl: 60 * 60 * 24 });
-    let tokenOfUser = await this.cacheManager.get('token');
+    await this.cacheManager.set('user', user['dataValues'], { ttl: 60 * 60 * 24 });
+    // let tokenOfUser = await this.cacheManager.get('token');
+    
     // console.log("Token: ", tokenOfUser);
     return this.makeUserObject(user, token);
   }

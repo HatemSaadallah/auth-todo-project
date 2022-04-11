@@ -1,5 +1,5 @@
 import { Injectable, Inject, Logger, CACHE_MANAGER } from "@nestjs/common";
-import { REPOSITORIES } from "src/common/constants";
+import { REPOSITORIES, UserObject } from "src/common/constants";
 import { TodoDto } from "./dto/index";
 import { Todos } from "./todo.model";
 import { Users } from "../user/user.model";
@@ -28,25 +28,16 @@ export class TodoService {
     }
 
     async createTodo(createTodoDto: CreateTodoDto): Promise<Todos> {
-        const { description } = createTodoDto;
-        const username = await this.cacheManager.get('user');
-        Logger.log(username);
-        const owner = await this.userService.findOne({ where: { username } });
-        console.log("description: ", description);
-        return this.todosRepository.create({
-            description,
-            userId: owner.id,
-        });
-        // body = {
-        //     ...body,
-        //     username: username,
-        //     userId: await this.userService.getUserIdByUsername(username),
-        //     createdBy: username,
-        //     updatedBy: username,
-        // };
+        const { todoItem } = createTodoDto;
+        const user: UserObject = await this.cacheManager.get('user');
+        // user = JSON.parse(user);
+        // const owner = await this.userService.findOne({ where: { username } });
+        // console.log("user: ", user.id);
         
-        // const createdTodo =  await this.todosRepository.create(body);
-        // return createdTodo;
+        return this.todosRepository.create({
+            todoItem,
+            userId: user.id,
+        }); 
     }
 
     deleteTodoById(id: number): Promise<number> {
