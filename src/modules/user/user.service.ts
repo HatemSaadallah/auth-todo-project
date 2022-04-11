@@ -7,6 +7,7 @@ import { generateToken } from 'src/common/utils/jwt';
 import {Cache} from 'cache-manager';
 import { UserDto } from './dto/UserDto.dto';
 import { SignupDto } from './dto/SignupDto';
+import { LoginUserDto } from './dto/login.dto';
 
 
 
@@ -32,8 +33,9 @@ export class UserService {
       updatedBy: user.updatedBy,
     };
   }
-  async login(username: string, password: string): Promise<UserObject> {
-
+  async login(userLoginInfo: LoginUserDto): Promise<UserObject> {
+    const { username, password } = userLoginInfo;
+    
     const user = await this.userRepository.findOne({
       where: { username },
     });

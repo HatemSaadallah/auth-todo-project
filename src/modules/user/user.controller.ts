@@ -7,6 +7,7 @@ import { winstonProvider } from 'src/common/constants';
 import { UserDto } from './dto/UserDto.dto';
 import { UserInfo } from 'os';
 import { Users } from './user.model';
+import { LoginUserDto } from './dto/login.dto';
 
 @Controller('user')
 export class UserController {
@@ -38,11 +39,8 @@ export class UserController {
 
   @Post('login')
   @Public()
-  login(
-    @Body() { username, password }: { username: string; password: string },
-  ) {
-    this.logger.log('info', 'login');
-    return this.userService.login(username, password);
+  login(@Body() loginInfo: LoginUserDto): Promise<UserDto> {
+    return this.userService.login(loginInfo);
   }
   @Post('signup')
   @Public()
