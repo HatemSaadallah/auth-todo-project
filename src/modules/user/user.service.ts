@@ -33,9 +33,9 @@ export class UserService {
       updatedBy: user.updatedBy,
     };
   }
-  async login(userLoginInfo: LoginUserDto): Promise<UserObject> {
+  async login(userLoginInfo: LoginUserDto): Promise<Users> {
     const { username, password } = userLoginInfo;
-    
+
     const user = await this.userRepository.findOne({
       where: { username },
     });
@@ -48,10 +48,8 @@ export class UserService {
     delete user.password;
     await this.cacheManager.set('token', token, { ttl: 60 * 60 * 24 });
     await this.cacheManager.set('user', user['dataValues'], { ttl: 60 * 60 * 24 });
-    // let tokenOfUser = await this.cacheManager.get('token');
     
-    // console.log("Token: ", tokenOfUser);
-    return this.makeUserObject(user, token);
+    return user;
   }
 
   getAllUsers(): Promise<Users[]> {
@@ -95,10 +93,10 @@ export class UserService {
     if (user) {
       throw new HttpException(
         {
-          status: HttpStatus.FORBIDDEN,
+          status: HttpStatus.BAD_REQUEST,
           error: ERRORS.USER_ALREADY_EXIST,
         },
-        HttpStatus.FORBIDDEN,
+        HttpStatus.BAD_REQUEST,
       );
     }
     restObj.password = await hashPassword(restObj.password);

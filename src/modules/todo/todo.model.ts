@@ -5,7 +5,20 @@ import {
   PrimaryKey,
   AutoIncrement,
   DataType,
+  Scopes,
 } from 'sequelize-typescript';
+
+@Scopes(() => {
+  return {
+    basic: {
+      attributes: {
+        exclude: [
+          'password',
+        ],
+      },
+    },
+  };
+})
 
 @Table({
   tableName: 'Todos',
