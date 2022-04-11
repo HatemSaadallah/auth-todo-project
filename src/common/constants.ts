@@ -9,12 +9,15 @@ export const REPOSITORIES = {
     TODO_REPOSITORY: 'TODO_REPOSITORY',
 };
 
-export const winstonProvider = 'NestWinston';
 
 export interface UserObject {
     id: number;
     username: string;
     token: string;
+    createdBy: string;
+    updatedBy: string;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 export enum RoleStatus {

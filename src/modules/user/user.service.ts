@@ -1,18 +1,34 @@
-import { HttpException, HttpStatus, Inject, Injectable, LoggerService } from '@nestjs/common';
+import { CACHE_MANAGER, HttpException, HttpStatus, Inject, Injectable, LoggerService } from '@nestjs/common';
 import { UserObject } from 'src/common/constants';
 import { REPOSITORIES } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
 import { Users } from './user.model';
 import { generateToken } from 'src/common/utils/jwt';
+import {Cache} from 'cache-manager';
+
 
 
 @Injectable()
 export class UserService {
+  
   constructor(
     @Inject(REPOSITORIES.USER_REPOSITORY)
     private userRepository: typeof Users,
-
+    @Inject(CACHE_MANAGER) 
+    private cacheManager: Cache
   ) {}
+
+  makeUserObject(user: Users, token: string): UserObject {
+    return {
+      id: user.id,
+      username: user.username,
+      token: token,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      createdBy: user.createdBy,
+      updatedBy: user.updatedBy,
+    };
+  }
   async login(username: string, password: string): Promise<UserObject> {
 
     const user = await this.userRepository.findOne({
@@ -23,12 +39,12 @@ export class UserService {
     if (!isValid) {
       throw new HttpException(ERRORS.LOGIN_ERROR, HttpStatus.BAD_REQUEST);
     }
-
-    return {
-      id: user.id,
-      username: user.username,
-      token: generateToken(user.username),
-    };
+    let token: string = generateToken(user);
+    delete user.password;
+    await this.cacheManager.set('token', token, { ttl: 60 * 60 * 24 });
+    let tokenOfUser = await this.cacheManager.get('token');
+    // console.log("Token: ", tokenOfUser);
+    return this.makeUserObject(user, token);
   }
 
   getAllUsers(): Promise<Users[]> {
@@ -40,7 +56,7 @@ export class UserService {
       where: { username },
     });
   }
-
+  
   deleteUserById(id: number): Promise<number> {
     return this.userRepository.destroy({
       where: { id },
@@ -53,6 +69,9 @@ export class UserService {
         where: { username },
       })
       .then((user) => user.id);
+  }
+  findOne(where): Promise<Users> {
+    return this.userRepository.findOne({ where });
   }
 
   changeRoleForUserById(id: number, role: string): Promise<number> {
@@ -76,19 +95,15 @@ export class UserService {
     }
     restObj.password = await hashPassword(restObj.password);
 
-    await this.userRepository.create({
+    const userCreated = await this.userRepository.create({
       username: username,
       updatedAt: new Date(),
       createdBy: username,
       updatedBy: username,
       password: restObj.password,
     });
+    delete userCreated.password;
 
-    return {
-      username: username,
-      updatedAt: new Date(),
-      createdBy: username,
-      updatedBy: username,
-    };
+    return userCreated;
   }
 }

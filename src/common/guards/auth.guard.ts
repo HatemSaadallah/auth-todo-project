@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable, Logger } from "@nestjs/common";
 import { verifyToken } from "../utils/jwt";
 import { Reflector } from "@nestjs/core";
 
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
     }
 
     const decoded = verifyToken(token, 'secret');
-    
+    Logger.log("decoded", decoded);
     if (decoded === null) {
       return false;
     }

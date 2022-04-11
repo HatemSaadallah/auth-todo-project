@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken';
+import { Users } from 'src/modules/user/user.model';
 
 export const verifyToken  =  (token: any, secret: any) =>
   jwt.verify(token, secret, (err, decode) => {
@@ -13,7 +14,7 @@ export const verifyToken  =  (token: any, secret: any) =>
 
 
 
-export const generateToken = (username: string) => {
-  const token = jwt.sign({ username: username }, 'secret');
+export const generateToken = (user: Users) => {
+  const token = jwt.sign({ username: user.username }, 'secret');
   return token;
 }

@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards, Headers } from "@nestjs/common";
-import { AuthGuard } from "src/common/guards/auth.guard";
 import { TodoService } from "./todo.service";
 import { UserService } from "../user/user.service";
 import { verifyToken } from "src/common/utils/jwt";
 import { CreateTodoDto } from "./dto/todo.create.dto";
+import { Public } from "src/common/decorators";
 @Controller('todos')
 export class TodoController {
     constructor(
@@ -11,8 +11,9 @@ export class TodoController {
         private readonly userService: UserService) {}
     
     @Post('create')
-    async createTodo(@Body() createdTodoDto: CreateTodoDto, @Headers() headers): Promise<any> {
-        return this.todoService.createTodo(body, headers);
+    @Public()
+    async createTodo(@Body() createdTodoDto: CreateTodoDto): Promise<any> {
+        return this.todoService.createTodo(createdTodoDto);
     }
 
     @Get('/')

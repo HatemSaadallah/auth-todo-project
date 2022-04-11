@@ -1,4 +1,4 @@
-import { Logger, Module } from '@nestjs/common';
+import { Module, CacheModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,6 +11,7 @@ import * as winston from 'winston';
 
 @Module({
   imports: [
+    CacheModule.register(),
     UserModule,
     DatabaseModule,
     TodoModule,
