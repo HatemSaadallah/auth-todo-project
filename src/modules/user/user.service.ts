@@ -5,6 +5,8 @@ import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
 import { Users } from './user.model';
 import { generateToken } from 'src/common/utils/jwt';
 import {Cache} from 'cache-manager';
+import { UserDto } from './dto/UserDto.dto';
+import { SignupDto } from './dto/SignupDto';
 
 
 
@@ -23,6 +25,7 @@ export class UserService {
       id: user.id,
       username: user.username,
       token: token,
+      role: user.role,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       createdBy: user.createdBy,
@@ -82,9 +85,21 @@ export class UserService {
       .then((user) => user[1][0].id);
   }
 
-  async signup(body): Promise<any> {
-    const { username, ...restObj } = body;
-    const user = await this.getUserByUsername(username);
+  makeUserDto(user: Users): UserDto {
+    return {
+      id: user.id,
+      username: user.username,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      createdBy: user.createdBy,
+      updatedBy: user.updatedBy,
+    };
+  }
+
+  async signup(userInfoBody: SignupDto): Promise<any> {
+    const { username, ...restObj } = userInfoBody;
+    const user: Users = await this.getUserByUsername(username);
 
     if (user) {
       throw new HttpException(
@@ -99,13 +114,16 @@ export class UserService {
 
     const userCreated = await this.userRepository.create({
       username: username,
-      updatedAt: new Date(),
-      createdBy: username,
-      updatedBy: username,
+      role: 'user',
+      createdAt: new Date(),
+      updatedAt: new Date(),  
+      updatedBy: '',
+      createdBy: '',
       password: restObj.password,
     });
     delete userCreated.password;
-
+    console.log("I am here");
+    
     return userCreated;
   }
 }

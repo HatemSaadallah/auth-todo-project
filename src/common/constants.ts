@@ -14,6 +14,7 @@ export const winstonProvider = 'NestWinston';
 export interface UserObject {
     id: number;
     username: string;
+    role: string;
     token: string;
     createdBy: string;
     updatedBy: string;

@@ -11,7 +11,6 @@ export class TodoController {
         private readonly userService: UserService) {}
     
     @Post('create')
-    // @Public()
     async createTodo(@Body() createdTodoDto: CreateTodoDto): Promise<any> {
         return this.todoService.createTodo(createdTodoDto);
     }

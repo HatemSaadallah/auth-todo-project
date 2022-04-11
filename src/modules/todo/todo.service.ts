@@ -30,12 +30,11 @@ export class TodoService {
     async createTodo(createTodoDto: CreateTodoDto): Promise<Todos> {
         const { todoItem } = createTodoDto;
         const user: UserObject = await this.cacheManager.get('user');
-        // user = JSON.parse(user);
-        // const owner = await this.userService.findOne({ where: { username } });
-        // console.log("user: ", user.token);
         
         return this.todosRepository.create({
             todoItem,
+            createdBy: user.id,
+            updatedBy: user.id,
             userId: user.id,
         }); 
     }

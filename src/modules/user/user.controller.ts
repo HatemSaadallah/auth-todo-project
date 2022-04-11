@@ -4,6 +4,9 @@ import { UserService } from './user.service';
 import { Public, Roles } from 'src/common/decorators';
 import { RoleStatus } from 'src/common/constants';
 import { winstonProvider } from 'src/common/constants';
+import { UserDto } from './dto/UserDto.dto';
+import { UserInfo } from 'os';
+import { Users } from './user.model';
 
 @Controller('user')
 export class UserController {
@@ -14,20 +17,20 @@ export class UserController {
     ) {}
   @Get('/')
   @Roles(RoleStatus.ADMIN)
-  @Public()
+
   async getAllUsers() {
+    console.log("I am in getAllUsers");
+    
     return await this.userService.getAllUsers();
   }
   @Delete('/:id')
   @Roles(RoleStatus.ADMIN)
-  @Public()
   async deleteUserById(@Param('id') id: number) {
     return await this.userService.deleteUserById(id);
   }
 
   @Put('/:id')
   @Roles(RoleStatus.ADMIN)
-  @Public()
   async changeRoleForUserById(@Param('id') id: number, @Body() body: { role: string }) {
     this.logger.log('info', `new role ${body.role}`);
     return await this.userService.changeRoleForUserById(id, body.role);
@@ -43,7 +46,7 @@ export class UserController {
   }
   @Post('signup')
   @Public()
-  signup(@Body() body: SignupDto) {
+  signup(@Body() body: SignupDto): Promise<Users> {
     return this.userService.signup(body);
   }
 }
