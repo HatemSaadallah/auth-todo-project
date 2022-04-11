@@ -3,6 +3,7 @@ import { AuthGuard } from "src/common/guards/auth.guard";
 import { TodoService } from "./todo.service";
 import { UserService } from "../user/user.service";
 import { verifyToken } from "src/common/utils/jwt";
+import { CreateTodoDto } from "./dto/todo.create.dto";
 @Controller('todos')
 export class TodoController {
     constructor(
@@ -10,8 +11,7 @@ export class TodoController {
         private readonly userService: UserService) {}
     
     @Post('create')
-    @UseGuards(AuthGuard)
-    createTodo(@Body() body, @Headers() headers): Promise<any> {
+    async createTodo(@Body() createdTodoDto: CreateTodoDto, @Headers() headers): Promise<any> {
         return this.todoService.createTodo(body, headers);
     }
 
