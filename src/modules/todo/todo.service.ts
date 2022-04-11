@@ -32,7 +32,7 @@ export class TodoService {
         const user: UserObject = await this.cacheManager.get('user');
         // user = JSON.parse(user);
         // const owner = await this.userService.findOne({ where: { username } });
-        // console.log("user: ", user.id);
+        // console.log("user: ", user.token);
         
         return this.todosRepository.create({
             todoItem,

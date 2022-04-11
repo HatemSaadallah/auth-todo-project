@@ -1,4 +1,6 @@
 import { NestFactory, Reflector } from '@nestjs/core';
+import { CACHE_MANAGER } from '@nestjs/common';
+
 import { AppModule } from './app.module';
 import { RolesGuard } from './common/guards/roles.guard';
 import { AuthGuard } from './common/guards/auth.guard';
@@ -12,8 +14,9 @@ async function bootstrap() {
     logger: new CustomLogger
   });
   const userService = app.get(UserService);
+  const cacheManager = app.get(CACHE_MANAGER);
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-  app.useGlobalGuards(new AuthGuard(new Reflector()), new RolesGuard(new Reflector(), userService));
+  app.useGlobalGuards(new AuthGuard(new Reflector(), cacheManager), new RolesGuard(new Reflector(), userService));
   await app.listen(3000);
 }
 

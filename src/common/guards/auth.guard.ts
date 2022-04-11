@@ -1,6 +1,8 @@
-import { CanActivate, ExecutionContext, Injectable, Logger } from "@nestjs/common";
+import { CACHE_MANAGER, CanActivate, ExecutionContext, Inject, Injectable, Logger } from "@nestjs/common";
 import { verifyToken } from "../utils/jwt";
 import { Reflector } from "@nestjs/core";
+import {Cache} from 'cache-manager';
+import { UserObject } from "../constants";
 
 
 @Injectable()
@@ -8,6 +10,8 @@ export class AuthGuard implements CanActivate {
   constructor(
     // private readonly configService: ConfigService,
     private readonly reflector: Reflector,
+    @Inject(CACHE_MANAGER) 
+    private cacheManager: Cache
     ) {}
   async canActivate(
     context: ExecutionContext,
@@ -19,19 +23,18 @@ export class AuthGuard implements CanActivate {
     if (isPublic) {
       return true;
     }
+    const user: UserObject = await this.cacheManager.get('user');
+    const token = await this.cacheManager.get('token');
 
-
-    const request = context.switchToHttp().getRequest();
-    const { token } = request.headers;
-    if (!token) {
+    if(!user || !token) {
       return false;
     }
-
+    console.log("cache: ", user);
+    
     const decoded = verifyToken(token, 'secret');
-    Logger.log("decoded", decoded);
-    if (decoded === null) {
-      return false;
-    }
-    return true;
+
+    if(decoded === false) return false;
+
+    return decoded.username == user.username;
   }
 }
