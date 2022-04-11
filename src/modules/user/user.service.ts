@@ -85,19 +85,8 @@ export class UserService {
       .then((user) => user[1][0].id);
   }
 
-  makeUserDto(user: Users): UserDto {
-    return {
-      id: user.id,
-      username: user.username,
-      role: user.role,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-      createdBy: user.createdBy,
-      updatedBy: user.updatedBy,
-    };
-  }
-
-  async signup(userInfoBody: SignupDto): Promise<any> {
+ 
+  async signup(userInfoBody: SignupDto): Promise<Users> {
     const { username, ...restObj } = userInfoBody;
     const user: Users = await this.getUserByUsername(username);
 
@@ -122,7 +111,6 @@ export class UserService {
       password: restObj.password,
     });
     delete userCreated.password;
-    console.log("I am here");
     
     return userCreated;
   }
