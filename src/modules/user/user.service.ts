@@ -62,9 +62,22 @@ export class UserService {
     });
   }
   
-  deleteUserById(id: number): Promise<number> {
+  async deleteUserById(id: number): Promise<number> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: ERRORS.USER_NOT_FOUND,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return this.userRepository.destroy({
       where: { id },
+    }).then((user) => {
+      Logger.log("user", user);
+      return id;
     });
   }
 
