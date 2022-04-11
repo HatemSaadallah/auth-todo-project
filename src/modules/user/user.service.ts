@@ -1,4 +1,4 @@
-import { CACHE_MANAGER, HttpException, HttpStatus, Inject, Injectable, LoggerService } from '@nestjs/common';
+import { CACHE_MANAGER, HttpException, HttpStatus, Inject, Injectable, Logger, LoggerService } from '@nestjs/common';
 import { UserObject } from 'src/common/constants';
 import { REPOSITORIES } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
@@ -79,10 +79,18 @@ export class UserService {
     return this.userRepository.findOne({ where });
   }
 
-  changeRoleForUserById(id: number, role: string): Promise<number> {
-    return this.userRepository
+  changeRoleForUserById(id: number, role: string): Promise<Users> {
+    return this.userRepository.scope('basic')
       .update({ role: role }, { where: { id }, returning: true })
-      .then((user) => user[1][0].id);
+      .then((user) => {
+        user[1][0].password = '';
+        return user[1][0];
+      });
+  }
+  async findOneById(id: number): Promise<Users> {
+    return this.userRepository.findOne({
+      where: { id },
+    });
   }
 
  

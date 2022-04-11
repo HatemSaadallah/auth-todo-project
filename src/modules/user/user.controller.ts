@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Get, Delete, Param, Put, LoggerService} from '@nestjs/common';
+import { Body, Controller, Inject, Post, Get, Delete, Param, Put, LoggerService, HttpException, HttpStatus} from '@nestjs/common';
 import { SignupDto } from './dto/SignupDto';
 import { UserService } from './user.service';
 import { Public, Roles } from 'src/common/decorators';
@@ -8,6 +8,7 @@ import { UserDto } from './dto/UserDto.dto';
 import { UserInfo } from 'os';
 import { Users } from './user.model';
 import { LoginUserDto } from './dto/login.dto';
+import { ERRORS } from 'src/common/utils';
 
 @Controller('user')
 export class UserController {
@@ -33,7 +34,16 @@ export class UserController {
   @Put('/:id')
   @Roles(RoleStatus.ADMIN)
   async changeRoleForUserById(@Param('id') id: number, @Body() body: { role: string }) {
-    this.logger.log('info', `new role ${body.role}`);
+    const user = this.userService.findOneById(id);
+    if (!user) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: ERRORS.USER_NOT_FOUND,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return await this.userService.changeRoleForUserById(id, body.role);
   }
 
