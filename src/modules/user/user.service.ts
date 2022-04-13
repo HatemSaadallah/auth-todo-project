@@ -4,7 +4,7 @@ import { REPOSITORIES } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
 import { Users } from './user.model';
 import { generateToken } from 'src/common/utils/jwt';
-import {Cache} from 'cache-manager';
+import { Cache } from 'cache-manager';
 import { SignupDto } from './dto/SignupDto';
 import { LoginUserDto } from './dto/login.dto';
 
@@ -16,6 +16,7 @@ export class UserService {
   constructor(
     @Inject(REPOSITORIES.USER_REPOSITORY)
     private userRepository: typeof Users,
+
     @Inject(CACHE_MANAGER) 
     private cacheManager: Cache
   ) {}
@@ -34,7 +35,8 @@ export class UserService {
   }
   async login(userLoginInfo: LoginUserDto): Promise<Users> {
     const { username, password } = userLoginInfo;
-
+    console.log("userLoginInfo", userLoginInfo);
+    
     const user = await this.userRepository.findOne({
       where: { username },
     });

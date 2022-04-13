@@ -3,7 +3,6 @@ import { SignupDto } from './dto/SignupDto';
 import { UserService } from './user.service';
 import { Public, Roles } from 'src/common/decorators';
 import { RoleStatus } from 'src/common/constants';
-import { winstonProvider } from 'src/common/constants';
 import { UserDto } from './dto/UserDto.dto';
 import { Users } from './user.model';
 import { LoginUserDto } from './dto/login.dto';
@@ -12,9 +11,8 @@ import { ERRORS } from 'src/common/utils';
 @Controller('user')
 export class UserController {
   constructor(
-    @Inject(winstonProvider) 
     private readonly userService: UserService,
-    ) {}
+  ) {}
   @Get('/')
   @Roles(RoleStatus.ADMIN)
 

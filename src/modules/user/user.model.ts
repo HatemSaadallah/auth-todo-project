@@ -17,7 +17,7 @@ import { Model, Column, PrimaryKey, AutoIncrement, DataType, Table, Scopes } fro
     };
   })
   
-export class Users extends Model {
+export class Users extends Model<Users> {
     @PrimaryKey
     @AutoIncrement
     @Column(DataType.INTEGER)
