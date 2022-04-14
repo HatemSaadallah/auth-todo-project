@@ -16,24 +16,24 @@ export class TodoDto {
     
     token: string;
     
-    @IsString()
     @Transform(({ value }: TransformFnParams) =>
         typeof value === 'string' ? value.trim() : value,
     )
+    @IsString()
     todoItem: string;
 
-    @IsNotEmpty()
-    @IsString()
     @Transform(({ value }: TransformFnParams) =>
         typeof value === 'string' ? value.trim() : value,
     )
+    @IsNotEmpty()
+    @IsString()
     createdBy: string;
-
-    @IsNotEmpty()
-    @IsString()
+    
     @Transform(({ value }: TransformFnParams) =>
         typeof value === 'string' ? value.trim() : value,
     )
+    @IsNotEmpty()
+    @IsString()
     updatedBy: string;
 
 }

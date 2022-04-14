@@ -11,9 +11,6 @@ export class UserDto {
   )
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
   username?: string;
 
   @IsNotEmpty()
