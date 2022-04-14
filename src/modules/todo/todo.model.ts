@@ -13,8 +13,9 @@ import {
   timestamps: true,
   underscored: true,
   paranoid: true,
+
 })
-export class Todos extends Model {
+export class Todos extends Model<Todos> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
@@ -37,4 +38,10 @@ export class Todos extends Model {
 
   @Column(DataType.INTEGER)
   updatedBy: number;
+
+  // add deleted_by column
+  @Column(DataType.INTEGER)
+  deletedBy: number;
+
+
 }

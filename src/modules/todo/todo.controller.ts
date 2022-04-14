@@ -22,7 +22,8 @@ export class TodoController {
         return this.todoService.getTodosByUsername(user);
     }
     @Delete('/:id')
-    deleteTodoById(@Param('id', ParseIntPipe) id: number): Promise<number> {
-        return this.todoService.deleteTodoById(id);
+    deleteTodoById(@UserInfo() user: any, @Param('id', ParseIntPipe) id: number): Promise<string> {
+        console.log(user.get({plain: true}));
+        return this.todoService.deleteTodoById(user.id, id);
     }
 }

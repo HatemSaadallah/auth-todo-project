@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { UserObject } from 'src/common/constants';
 import { REPOSITORIES } from 'src/common/constants';
-import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
+
 import { Users } from './user.model';
 import { generateToken } from 'src/common/utils/jwt';
-import { Cache } from 'cache-manager';
 import { SignupDto } from './dto/SignupDto';
 import { LoginUserDto } from './dto/login.dto';
+import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
 
-
+// import { ERRORS, 
 
 @Injectable()
 export class UserService {
