@@ -26,15 +26,15 @@ export class AuthGuard implements CanActivate {
     if (!token) {
       return false;
     }
-
+    
     try {
-      const data: { id: number } = verifyToken(token, 'secret');
+      const data: { id: number } = verifyToken(token, this.configService.get('JWTKEY'));
       const user = await this.userService.getUserById(data.id);
       request.user = user;
       request.user.userId = user.id;
-      return true;
     } catch {
       return false;
     }
+    return true;
   }
 }

@@ -23,7 +23,6 @@ export class TodoService {
 
     async createTodo(createTodoDto: CreateTodoDto, user: any): Promise<Todos> {
         const { todoItem } = createTodoDto;
-        console.log("User", user);
         
         return this.todosRepository.create({
             todoItem,

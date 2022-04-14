@@ -14,7 +14,6 @@ export class TodoController {
     
     @Post('create')
     async createTodo(@UserInfo() userInfo: any, @Body() createdTodoDto: CreateTodoDto): Promise<Todos> {
-        console.log("userInfo", userInfo);
         return this.todoService.createTodo(createdTodoDto, userInfo);
     }
 
