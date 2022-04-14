@@ -12,6 +12,8 @@ export class AuthGuard implements CanActivate {
     private readonly configService: ConfigService,
     ) {}
   async canActivate(
+
+    s
     context: ExecutionContext,
   ): Promise<boolean> {
     const isPublic = this.reflector.get<string[]>(
