@@ -13,6 +13,6 @@ export const verifyToken: any = (token: string, secret: string) =>
 
 
 export const generateToken = (user: Users) => {
-  const token = jwt.sign({ id: user.id }, 'secret');
+  const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: process.env.TOKEN_EXPIRATION});
   return token;
 }

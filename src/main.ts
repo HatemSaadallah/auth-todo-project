@@ -13,9 +13,10 @@ async function bootstrap() {
     logger: new CustomLogger
   });
   const userService = app.get(UserService);
+  const configService = app.get(ConfigService);
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   app.useGlobalGuards(new AuthGuard(userService, new Reflector(), app.get(ConfigService)), new RolesGuard(new Reflector()));
-  await app.listen(3000);
+  await app.listen(configService.get('PORT'));
 }
 
 bootstrap();
