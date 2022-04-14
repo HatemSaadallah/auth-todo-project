@@ -13,12 +13,10 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
   ) {}
+
   @Get('/')
   @Roles(RoleStatus.ADMIN)
-
-  async getAllUsers() {
-    console.log("I am in getAllUsers");
-    
+  async getAllUsers() {   
     return await this.userService.getAllUsers();
   }
   @Delete('/:id')

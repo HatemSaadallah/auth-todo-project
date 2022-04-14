@@ -1,4 +1,4 @@
-import { CACHE_MANAGER, HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { UserObject } from 'src/common/constants';
 import { REPOSITORIES } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
@@ -17,8 +17,6 @@ export class UserService {
     @Inject(REPOSITORIES.USER_REPOSITORY)
     private userRepository: typeof Users,
 
-    @Inject(CACHE_MANAGER) 
-    private cacheManager: Cache
   ) {}
 
   makeUserObject(user: Users, token: string): UserObject {
@@ -33,9 +31,8 @@ export class UserService {
       updatedBy: user.updatedBy,
     };
   }
-  async login(userLoginInfo: LoginUserDto): Promise<Users> {
+  async login(userLoginInfo: LoginUserDto): Promise<any> {
     const { username, password } = userLoginInfo;
-    console.log("userLoginInfo", userLoginInfo);
     
     const user = await this.userRepository.findOne({
       where: { username },
@@ -47,9 +44,7 @@ export class UserService {
     }
     let token: string = generateToken(user);
     user.password = '';
-    await this.cacheManager.set('token', token, { ttl: 60 * 60 * 24 });
-    await this.cacheManager.set('user', user['dataValues'], { ttl: 60 * 60 * 24 });
-    return user;
+    return {user, token};
   }
 
   getAllUsers(): Promise<Users[]> {
@@ -78,6 +73,12 @@ export class UserService {
     }).then((user) => {
       Logger.log("user", user);
       return id;
+    });
+  }
+
+  getUserById(id: number): Promise<Users> {
+    return this.userRepository.findOne({
+      where: { id },
     });
   }
 

@@ -1,4 +1,4 @@
-import { Injectable, Inject, CACHE_MANAGER } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { REPOSITORIES, UserObject } from "src/common/constants";
 import { Todos } from "./todo.model";
 import { UserService } from "../user/user.service";
@@ -11,8 +11,6 @@ export class TodoService {
         private todosRepository: typeof Todos,
         private readonly userService: UserService,
 
-        @Inject(CACHE_MANAGER) 
-        private cacheManager: Cache
         ) {}
 
     async getAllTodos(): Promise<Todos[]> {
@@ -23,9 +21,9 @@ export class TodoService {
         return this.todosRepository.findAll({ where: { userId }});
     }
 
-    async createTodo(createTodoDto: CreateTodoDto): Promise<Todos> {
+    async createTodo(createTodoDto: CreateTodoDto, user: any): Promise<Todos> {
         const { todoItem } = createTodoDto;
-        const user: UserObject = await this.cacheManager.get('user');
+        console.log("User", user);
         
         return this.todosRepository.create({
             todoItem,
