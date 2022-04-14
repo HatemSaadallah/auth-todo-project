@@ -1,16 +1,16 @@
+import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { RolesGuard } from './common/guards/roles.guard';
-import { AuthGuard } from './common/guards/auth.guard';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { AppModule } from './app.module';
+import { AuthGuard } from './common/guards/auth.guard';
+import { RolesGuard } from './common/guards/roles.guard';
 import { CustomLogger } from './common/logger/winston.logger';
 import { UserService } from './modules/user/user.service';
-import { ConfigService } from '@nestjs/config';
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: new CustomLogger
+    logger: new CustomLogger(),
   });
   const userService = app.get(UserService);
   const configService = app.get(ConfigService);

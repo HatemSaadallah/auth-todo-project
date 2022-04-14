@@ -1,5 +1,5 @@
-import { IsString, IsNotEmpty } from "class-validator";
 import { Transform, TransformFnParams } from 'class-transformer';
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class SignupDto {
     @Transform(({ value }: TransformFnParams) =>

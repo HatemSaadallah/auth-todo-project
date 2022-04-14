@@ -1,14 +1,11 @@
 import { HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
-import { UserObject } from 'src/common/constants';
-import { REPOSITORIES } from 'src/common/constants';
-
-import { Users } from './user.model';
-import { generateToken } from 'src/common/utils/jwt';
-import { SignupDto } from './dto/SignupDto';
-import { LoginUserDto } from './dto/login.dto';
+import { REPOSITORIES, UserObject } from 'src/common/constants';
 import { comparePassword, ERRORS, hashPassword } from 'src/common/utils';
+import { generateToken } from 'src/common/utils/jwt';
+import { LoginUserDto } from './dto/login.dto';
+import { SignupDto } from './dto/SignupDto';
+import { Users } from './user.model';
 
-// import { ERRORS, 
 
 @Injectable()
 export class UserService {
@@ -17,8 +14,9 @@ export class UserService {
     @Inject(REPOSITORIES.USER_REPOSITORY)
     private userRepository: typeof Users,
 
+    
   ) {}
-
+  private readonly logger: Logger = new Logger('UserService');
   makeUserObject(user: Users, token: string): UserObject {
     return {
       id: user.id,
@@ -71,7 +69,7 @@ export class UserService {
     return this.userRepository.destroy({
       where: { id },
     }).then((user) => {
-      Logger.log("user", user);
+      this.logger.log("user", user);
       return id;
     });
   }

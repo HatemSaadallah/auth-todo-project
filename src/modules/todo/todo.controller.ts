@@ -1,9 +1,8 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
-import { TodoService } from "./todo.service";
+import { UserInfo } from "src/common/decorators/user.decorator";
 import { CreateTodoDto } from "./dto/todo.create.dto";
 import { Todos } from "./todo.model";
-import { UserObject } from "src/common/constants";
-import { UserInfo } from "src/common/decorators/user.decorator";
+import { TodoService } from "./todo.service";
 
 @Controller('todos')
 export class TodoController {

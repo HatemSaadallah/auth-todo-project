@@ -1,4 +1,4 @@
-import { MaxLength, IsOptional } from 'class-validator';
+import { IsOptional, MaxLength } from 'class-validator';
 
 export class CreateTodoDto {
   @IsOptional()

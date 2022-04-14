@@ -1,13 +1,14 @@
-import { Module, CacheModule } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { DatabaseModule } from './modules/db/database.module';
-import { UserModule } from './modules/user/user.module';
 import configFile from 'config';
-import { TodoModule } from './modules/todo/todo.module';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { CustomLogger } from './common/logger/winston.logger';
+import { DatabaseModule } from './modules/db/database.module';
+import { TodoModule } from './modules/todo/todo.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -32,7 +33,7 @@ import * as winston from 'winston';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
-  
+  providers: [AppService, CustomLogger],
+  exports: [CustomLogger],
 })
 export class AppModule {}

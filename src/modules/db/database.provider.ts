@@ -1,11 +1,11 @@
 import { ConfigService } from '@nestjs/config';
-
 import { Sequelize } from 'sequelize-typescript';
-
-import { PROVIDERS, DATABASE_CONFIG } from '../../common/constants';
-
-import { Users } from '../user/user.model';
+import { DATABASE_CONFIG, PROVIDERS } from '../../common/constants';
 import { Todos } from '../todo/todo.model';
+import { Users } from '../user/user.model';
+
+
+
 export const databaseProvider = [
   {
     provide: PROVIDERS.DATABASE_PROVIDER,
