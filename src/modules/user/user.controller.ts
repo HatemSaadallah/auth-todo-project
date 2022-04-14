@@ -1,12 +1,12 @@
-import { Body, Controller, Inject, Post, Get, Delete, Param, Put, HttpException, HttpStatus} from '@nestjs/common';
-import { SignupDto } from './dto/SignupDto';
-import { UserService } from './user.service';
-import { Public, Roles } from 'src/common/decorators';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { RoleStatus } from 'src/common/constants';
+import { Public, Roles } from 'src/common/decorators';
+import { ERRORS } from 'src/common/utils';
+import { LoginUserDto } from './dto/login.dto';
+import { SignupDto } from './dto/SignupDto';
 import { UserDto } from './dto/UserDto.dto';
 import { Users } from './user.model';
-import { LoginUserDto } from './dto/login.dto';
-import { ERRORS } from 'src/common/utils';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
